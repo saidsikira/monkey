@@ -133,7 +133,38 @@ func TestIntegerLiteralExpression(t *testing.T) {
 	}
 
 	if literal.TokenLiteral() != "5" {
-		t.Errorf("literal.TokenLiteral not %s. got=%s", "5", literal.TokenLiteral())
+		t.Errorf("literal.TokenLiteral not %s./ got=%s", "5", literal.TokenLiteral())
+	}
+}
+
+func TestBooleanExpression(t *testing.T) {
+	input := []struct {
+		input string
+		value bool
+	}{
+		{"true", true},
+		{"false", false},
+	}
+
+	for _, tt := range input {
+		p := NewProgram(t, tt.input, 1)
+
+		stmt, ok := p.Statements[0].(*ast.ExpressionStatement)
+
+		if !ok {
+			t.Fatalf("p.Statements[0] is not ast.ExpressionStatement, got: %T", p.Statements[0])
+		}
+
+		boolean, ok := stmt.Expression.(*ast.Boolean)
+
+		if !ok {
+			t.Fatalf("exp not *ast.Boolean, got=%T", stmt.Expression)
+		}
+
+		if boolean.Value != tt.value {
+			t.Fatalf("boolean.Value is not %t. got=%t", tt.value, boolean.Value)
+		}
+
 	}
 }
 

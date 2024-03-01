@@ -4,9 +4,9 @@ import "monkey/token"
 
 type Lexer struct {
 	input        string
-	position     int
-	readPosition int
-	ch           byte
+	position     int  // Curent position in the input (points to the current char)
+	readPosition int  // Current reading position in the input (after current char)
+	ch           byte // Current char under examination
 }
 
 func New(input string) *Lexer {
